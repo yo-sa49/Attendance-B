@@ -26,13 +26,19 @@
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendance">
     <thead>
       <tr>
-        <th>日付</th>
-        <th>曜日</th>
-        <th>勤怠登録</th>
-        <th>出勤時間</th>
-        <th>退勤時間</th>
-        <th>在社時間</th>
-        <th>備考</th>
+        <td rowspan="2">日付</td>
+        <td rowspan="2">曜日</td>
+        <td colspan = "3">出社</td>
+        <td colspan = "2">退社</td>
+        <td rowspan="2">在社時間</td>
+        <td rowspan="2">備考</td>
+      </tr>
+      <tr>
+        <td>時</td>
+        <td>分</td>
+        <td></td>
+        <td>時</td>
+        <td>分</td>
       </tr>
     </thead>
     
@@ -41,14 +47,17 @@
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+          <td><%= l(day.started_at, format: :hour) if day.started_at.present? %></td>
+          <td><%= l(day.started_at, format: :minute) if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
               <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch,
               class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
-          <td><%= l(day.started_at, format: :time) if day.started_at.present? %></td>
-          <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
+          <td><%= l(day.finished_at, format: :hour) if day.finished_at.present? %></td>
+          <td><%= l(day.finished_at, format: :minute) if day.finished_at.present? %></td>
+          <td></td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
               <%= str_times = working_times(day.started_at, day.finished_at) %>
