@@ -2,14 +2,14 @@
 <div>
   <table class = "table table-bordered table-condensed user-table">
     <tr>
-      <td>
+      <th>
         <%= link_to "←", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
         <%= l(@first_day, format: :middle) %> 時間管理表
         <%= link_to "→", user_path(date: @first_day.next_month), class: "btn btn-info" %>
-      </td>
-      <td>指定勤務時間<%= format_basic_info(@user.work_time) %></td>
-      <td colspan="2">基本時間<%= format_basic_info(@user.basic_time) %></td>
-      <td>初日<%= l(@first_day, format: :short) %></td>
+      </th>
+      <th>指定勤務時間<%= format_basic_info(@user.work_time) %></th>
+      <th colspan="2">基本時間<%= format_basic_info(@user.basic_time) %></th>
+      <th>初日<%= l(@first_day, format: :short) %></th>
     </tr>
     
     <tr>
@@ -30,12 +30,12 @@
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendance">
     <thead>
       <tr>
-        <td rowspan="2">日付</td>
-        <td rowspan="2">曜日</td>
+        <td rowspan ="2">日付</td>
+        <td rowspan ="2">曜日</td>
         <td colspan = "3">出社</td>
         <td colspan = "2">退社</td>
-        <td rowspan="2">在社時間</td>
-        <td rowspan="2">備考</td>
+        <td rowspan ="2">在社時間</td>
+        <td rowspan ="2">備考</td>
       </tr>
       <tr>
         <td>時</td>
@@ -68,7 +68,7 @@
               <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
             <% end %>
           </td>
-          <td></td>
+          <td><%= day.note %></td>
         </tr>
       <% end %>
     </tbody>
