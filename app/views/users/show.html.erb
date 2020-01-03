@@ -51,9 +51,17 @@
       <% @attendances.each do |day| %>
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
-          <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+          <td>
+            <% if day.worked_on.wday == 6 %>
+              <font color = "Blue"><%= $days_of_the_week[day.worked_on.wday] %></font>
+            <% elsif day.worked_on.wday == 0 %>
+              <font color = "Red"><%= $days_of_the_week[day.worked_on.wday] %></font>
+            <% else %>
+              <%= $days_of_the_week[day.worked_on.wday] %>
+            <% end %>
+          </td>
           <td><%= l(day.started_at, format: :hour) if day.started_at.present? %></td>
-          <td><%= l(day.started_at, format: :minute) if day.started_at.present? %></td>
+          <td><%= day.started_at.min.floor_to(15) if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
               <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch,
@@ -61,7 +69,7 @@
             <% end %>
           </td>
           <td><%= l(day.finished_at, format: :hour) if day.finished_at.present? %></td>
-          <td><%= l(day.finished_at, format: :minute) if day.finished_at.present? %></td>
+          <td><%= day.finished_at.min.floor_to(15) if day.finished_at.present? %></td>
           <td></td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
