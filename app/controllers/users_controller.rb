@@ -7,6 +7,11 @@ class UsersController < ApplicationController
 
   def index
     @users = User.paginate(page: params[:page])
+    if @users.search(params[:search])
+      # 検索時の処理
+    else
+      all
+    end
   end
 
   def show
