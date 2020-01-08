@@ -2,15 +2,16 @@
 <h1>ユーザー一覧</h1>
 
 <!--  検索拡張機能  -->
-<%= form_with(model: @user, local: true) do |f| %>
-  <%= f.label :name, 'ユーザー名検索' %>
-  <%= f.text_field :search, placeholder: 'キーワードを入力' %>
-  <%= f.submit '検索', :name => nil %>
+<%= form_with url: users_path, method: :get, local: true do |f| %>
+  <%= f.label :search, '検索' %>
+  <%= f.text_field :search, placeholder: 'ユーザー名検索' %>
+  <%= f.submit 'Search', :name => nil, class: "button is-info" %>
 <% end %>
 
+<%= will_paginate %>
+
 <div class="col-md-10 col-md-offset-1">
-  <%= will_paginate %>
-  <table class="table table-condensed table-hover" id="table-users">
+　　<table class="table table-condensed table-hover" id="table-users">
     <thead>
       <tr>
         <th><%= User.human_attribute_name :name %></th>
