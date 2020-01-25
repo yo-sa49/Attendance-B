@@ -1,5 +1,9 @@
 <% provide(:title, 'All Users') %>
-<h1>ユーザー一覧</h1>
+<% if params[:seach].present? %>
+  <h1>ユーザー一覧</h1>
+<% else %>
+  <h1>検索結果</h1>
+<% end %>
 
 <!--  検索拡張機能  -->
 <div class="row container">
