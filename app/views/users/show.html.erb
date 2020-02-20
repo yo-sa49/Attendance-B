@@ -22,6 +22,12 @@
   </table>
 </div>
 
+<% if current_user.admin? %>
+  <p><%= link_to "【所属長承認申請のお知らせ】", "#" %></p>
+  <p><%= link_to "【勤怠変更申請のお知らせ】", "#" %></p>
+  <p><%= link_to "【残業申請のお知らせ】", "#" %></p>
+<% end %>
+
 <div>
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendance">
     <thead>
