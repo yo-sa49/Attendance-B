@@ -32,19 +32,20 @@
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendance">
     <thead>
       <tr>
-        <td></td>
-        <td></td>
-        <td colspan = "6">【実績】</td>
-        <td>所定外勤務</td>
-      </tr>
-      <tr>
         <td rowspan ="3">日付</td>
         <td rowspan ="3">曜日</td>
+        <td colspan ="8">【実績】</td>
+        <td colspan ="5">所定外勤務</td>
+      </tr>
+      <tr>
         <td colspan ="3">出社</td>
-        <td colspan ="2">退社</td>
+        <td colspan ="3">退社</td>
         <td rowspan ="2">在社時間</td>
         <td rowspan ="2">備考</td>
         <td colspan ="2">終了予定時間</td>
+        <td rowspan ="2">時間外時間</td>
+        <td rowspan ="2">業務処理内容</td>
+        <td rowspan ="2">指示者確認㊞</td>
       </tr>
       <tr>
         <td>時</td>
@@ -52,6 +53,7 @@
         <td></td>
         <td>時</td>
         <td>分</td>
+        <td></td>
         <td>時</td>
         <td>分</td>
       </tr>
@@ -79,6 +81,10 @@
               <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
             <% end %>
           </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td></td>
           <td></td>
         </tr>
