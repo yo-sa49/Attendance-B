@@ -22,19 +22,28 @@
   </table>
 </div>
 
-<div class = "btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-success" %>
-</div>
+<h4 class: "btn btn-muted">
 <% if current_user.admin? %>
   <p><%= link_to "【所属長承認申請のお知らせ】", "#" %></p>
   <p><%= link_to "【勤怠変更申請のお知らせ】", "#" %></p>
   <p><%= link_to "【残業申請のお知らせ】", "#" %></p>
 <% end %>
+</h4>
+
+<div class = "btn-users-show">
+  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
+  <%= link_to "CSV入力", "#", class: "btn btn-primary" %>
+</div>
+
+<div class = "btn-users-show">
+  <%= link_to "勤怠修正ログ（修正済）", "#", class: "btn btn-primary" %>
+</div>
 
 <div>
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendances">
     <thead>
       <tr>
+        <td rowspan ="3">残業申請</td>
         <td rowspan ="3">日付</td>
         <td rowspan ="3">曜日</td>
         <td colspan ="8">【実績】</td>
@@ -65,6 +74,11 @@
     <tbody>
       <% @attendances.each do |day| %>
         <tr>
+          <td>
+            <%= link_to "残業申請", "#",
+            remote: true, class: "btn btn-primary btn-md", date: day.worked_on %>
+          </td>
+          </td>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td>
             <% if day.worked_on.wday == 6 %>
@@ -93,7 +107,6 @@
             <% end %>
           </td>
           <td><%= day.note %></td>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
