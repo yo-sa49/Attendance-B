@@ -1,24 +1,30 @@
 <% provide(:title, @user.name) %>
 <div>
-  <table class = "table table-bordered table-condensed user-table">
-    <tr>
-      <td>
-        <%= link_to "←", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
-        &emsp;<%= l(@first_day, format: :middle) %> 時間管理表&emsp;
-        <%= link_to "→", user_path(date: @first_day.next_month), class: "btn btn-info" %>
-      </td>
-      <td>指定勤務時間<%= format_basic_info(@user.work_time) %></td>
-      <td colspan="2">基本時間<%= format_basic_info(@user.basic_time) %></td>
-      <td>初日<%= l(@first_day, format: :short) %></td>
-    </tr>
+  <table class = "table table-bordered table-condensed" id= "user-table">
+    <thead>
+      <tr>
+        <td>
+          <%= link_to "←", user_path(date: @first_day.prev_month), class: "btn btn-info" if current_user?(@user) %>
+          &emsp;<%= l(@first_day, format: :middle) %>&emsp;時間管理表&emsp;
+          <%= link_to "→", user_path(date: @first_day.next_month), class: "btn btn-info" if current_user?(@user) %>
+        </td>
+        <td>
+          指定勤務時間&emsp;<%= format_basic_info(@user.work_time) %><br>
+          指定勤務終了時間&emsp;<%= @user.work_time.strftime("%R") %>
+        </td>
+        <td colspan="3">基本時間&emsp;<%= format_basic_info(@user.basic_time) %></td>
+        <td>初日&emsp;<%= l(@first_day, format: :short) %></td>
+      </tr>
     
-    <tr>
-      <td>所属: <%= @user.department.present? ? @user.department : "未所属" %></td>
-      <td>氏名　<%= @user.name %></td>
-      <td>コード</td>
-      <td>出勤日数  <%=@worked_sum %>日</td>
-      <td>締め<%= l(@last_day, format: :short) %></td>
-    </tr>
+      <tr>
+        <td>所属&emsp;<%= @user.department.present? ? @user.department : "未所属" %></td>
+        <td>氏名&emsp;<%= @user.name %></td>
+        <td>コード</td>
+        <td></td>
+        <td>出勤日数&emsp;<%= @worked_sum %>日</td>
+        <td>締め&emsp;<%= l(@last_day, format: :short) %></td>
+      </tr>
+    </thead>
   </table>
 </div>
 
@@ -34,7 +40,7 @@
   <% if current_user?(@user) %>
     <div class="btn-proup">
       <%= link_to "勤怠情報を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
-      <%= link_to "CSV入力", "#", class: "btn btn-primary" %>
+      <%= link_to "CSV入力", user_path(date: @first_day, format: :csv), class: "btn btn-primary" %>
       <%= link_to "勤怠修正ログ（修正済）", "#", class: "btn btn-primary" %>
     </div>
   <% end %>
@@ -44,9 +50,11 @@
   <table class = "table table-bordered table-condensed table-striped" id = "user-table">
     <thead>
       <tr>
-        <td rowspan ="3">残業申請</td>
-        <td rowspan ="3">日付</td>
-        <td rowspan ="3">曜日</td>
+        <td rowspan ="4">残業申請</td>
+        <td rowspan ="4">日付</td>
+        <td rowspan ="4">曜日</td>
+      </tr>
+      <tr>
         <td colspan ="8">【実績】</td>
         <td colspan ="5">所定外勤務</td>
       </tr>
@@ -58,7 +66,7 @@
         <td colspan ="2">終了予定時間</td>
         <td rowspan ="2">時間外時間</td>
         <td rowspan ="2">業務処理内容</td>
-        <td rowspan ="2">指示者確認㊞</td>
+        <td rowspan ="2">指示者確認<%= "\u329e" %></td>
       </tr>
       <tr>
         <td>時</td>
@@ -78,7 +86,6 @@
           <td>
             <%= link_to "残業申請", "#",
             remote: true, class: "btn btn-primary btn-md", date: day.worked_on %>
-          </td>
           </td>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td>
@@ -120,17 +127,13 @@
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>
-        <td>累計日数</td>
-        <td>総合勤務時間</td>
-        <td colspan = "6"></td>
-        <td>累計在社時間</td>
         <td></td>
-      </tr>
-      <tr>
-        <td><%= @attendances.count %></td>
-        <td><%= format_basic_info(@user.work_time).to_f * @worked_sum %></td>
+        <td colspan="2"></td>
         <td colspan = "6"></td>
-        <td><%= format("%.2f",@total_working_times.to_f) %></td>
+        <td><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td colspan="3"></td>
+        <td><%= "" %></td>
+        <td></td>
         <td></td>
       </tr>
     </tfoot>
