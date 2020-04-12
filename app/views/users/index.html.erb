@@ -1,9 +1,19 @@
 <% provide(:title, 'All Users') %>
-<% if params[:search].present? %>
-  <h1>検索結果</h1>
-<% else %>
-  <h1>ユーザー一覧</h1>
-<% end %>
+<% provide(:class_text, "user--edit") %>
+<% provide(:btn_text, "更新") %>
+<h1><%= params[:search].present? ? "検索結果" : "ユーザー一覧" %></h1>
+<h3 class="center"><%= link_to "戻る", users_path if params[:search].present? %></h3>
+
+<div class="container">
+  <div class="row form-group">
+    
+    <!-- csvインポートフォーム　-->
+    <div class="col-md-4 col-md-offset-1 csv-group">
+      <%= form_tag("#", method: :post, multipart: true) do %>
+        <%= file_field_tag :csv_file, class: "form-control form-csv" %>
+        <%= submit_tag "CSVをインポート", class: "btn btn-primary btn-block btn-csv" %>
+      <% end %>
+    </div>
 
 <!--  検索拡張機能  -->
 <div class="row container">

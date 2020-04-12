@@ -10,7 +10,6 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 100 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true 
-  validates :department,length: { in: 2..50 },allow_blank: true
   validates :basic_time, presence: true
   validates :work_time, presence: true
   has_secure_password
@@ -51,11 +50,8 @@ class User < ApplicationRecord
   end
  
   def self.search(search) #self.はUser.を意味する
-    if search
-      where(['name LIKE ?', "%#{search}%"]) #検索とnameの部分一致を表示。
-    else
-      all #全て表示させる
-    end
+    return User.all unless search
+    User.where(['name LIKE ?', "%#{search}%"]) #検索とnameの部分一致を表示。
   end
   
 end

@@ -6,7 +6,15 @@ class UsersController < ApplicationController
   before_action :set_one_month, only: :show
 
   def index
-    @users = User.paginate(page: params[:page]).search(params[:search])
+    if params[:search] == ""
+      redirect_to users_url
+      flash[:danger] = "キーワードを入力してください"
+    else
+      @users = User.paginate(page: params[:page]).search(params[:search]).order(id: "ASC").where.not(admin: true)
+      if params[:search].present?
+        flash.now[:success] = "検索結果:#{@users.count}件"
+      end
+    end
   end
 
   def show
