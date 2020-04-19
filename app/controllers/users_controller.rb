@@ -16,6 +16,14 @@ class UsersController < ApplicationController
       end
     end
   end
+  
+  def import
+    if params[:csv_file].blank?
+      flash[:danger] = "インポートするCSVファイルを選択してください。"
+      redirect_to users_url
+    end
+  end
+      
 
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
