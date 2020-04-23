@@ -54,4 +54,12 @@ class User < ApplicationRecord
     User.where(['name LIKE ?', "%#{search}%"]) #検索とnameの部分一致を表示。
   end
   
+  def self.import(file)
+    CSV.foreach(file.path, encoding: 'Shift_JIS:UTF-8', headers: true) do |row|
+      user = new
+      user.attributes = row.to_hash.slice(*csv_attributes)
+      user.save!
+    end
+  end
+  
 end

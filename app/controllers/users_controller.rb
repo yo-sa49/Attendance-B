@@ -18,10 +18,8 @@ class UsersController < ApplicationController
   end
   
   def import
-    if params[:csv_file].blank?
-      flash[:danger] = "インポートするCSVファイルを選択してください。"
-      redirect_to users_url
-    end
+    User.import(params[:file])
+    redirect_to users_url, notice: "ユーザーを追加しました"
   end
       
 

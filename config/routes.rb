@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   
   resources :users do
+    post :import, on: :collection
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'
