@@ -7,6 +7,16 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    respond_to do |format|
+      format.html do
+        #html用の処理を書く
+      end
+      format.csv do
+        #csv用の処理を書く
+        send_data render_to_string, filename: "(ファイル名).csv", type: :csv
+      end
+    end
+      
     if params[:search] == ""
       redirect_to users_url
       flash[:danger] = "キーワードを入力してください"
@@ -32,6 +42,15 @@ class UsersController < ApplicationController
 
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
+    @users = User.all
+    respond_to do |format|
+      format.html do
+        #html用の処理を書く
+      end
+      format.csv do
+        #csv用の処理を書く
+      end
+    end
   end
 
   def new
