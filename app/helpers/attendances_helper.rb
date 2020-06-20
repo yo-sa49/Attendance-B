@@ -31,5 +31,12 @@ module AttendancesHelper
     end
     return attendances
   end
+  
+  # 本日の勤務中社員取得用
+  def working_users
+    User.where(id: Attendance.where.not(started_at: nil).
+         where(id: Attendance.where(finished_at: nil)).
+         where(id: Attendance.where(worked_on: Date.current)).select(:user_id))
+  end
 
 end
