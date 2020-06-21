@@ -2,6 +2,7 @@
 
 User.create!(name: "Sample User",
              email: "sample@email.com",
+             employee_number: 100,
              password: "password",
              password_confirmation: "password",
              admin: true,
