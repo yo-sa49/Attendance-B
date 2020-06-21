@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'offices/index'
+
   root 'static_pages#top'
   get '/signup', to: 'users#new'
   
@@ -16,6 +18,7 @@ Rails.application.routes.draw do
     end
     collection do
       post 'import'
+      resources :offices
     end
     resources :attendances, only: :update
     
