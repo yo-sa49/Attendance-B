@@ -26,7 +26,13 @@ class OfficesController < ApplicationController
     else
       flash[:danger] = "#{@office.office_name}の更新に失敗しました。"
     end
-  end  
+  end
+  
+  def destroy
+    @office.destroy
+    flash[:danger] = "#{@office.office_name}のデータを削除しました。"
+    redirect_to offices_url
+  end
   
   private
   

@@ -27,7 +27,39 @@
           <td><%= office.office_name %></td>
           <td><%= office.office_type %></td>
         </tr>
+        <tr>
+          <td colspan="5" class="collapse-edit">
+            <div class="collapse" id="collapse-edit<%= office.id %>">
+              <div class="collapse-body">
+                <%= form_with(model: office, local: true) do |f| %>
+                  <%= f.label Office.human_attribute_name :office_number, class:"label-#{yield(:class_text)}" %>
+                  <%= f.number_field :office_number, class: "form-control" %>
+                  
+                  <%= f.label Office.human_attribute_name :office_name, class:"label-#{yield(:class_text)}" %>
+                  <%= f.number_field :office_name, class: "form-control" %>
+                  
+                  <%= f.label Office.human_attribute_name :office_type, class:"label-#{yield(:class_text)}" %>
+                  <%= f.number_field :office_type, class: "form-control" %>
+                  
+                  <%= f.submit "修正", class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
+                <% end %>
+              </div>
+            </div>
+          </td>
+        </tr>
       </tbody>
     <% end %>
   </table>
+  <div class="jumbotron">
+    <div class="acd-content col-md-2">
+      <a class="btn btn-primary btn-lg btn-office-new" data-toggle="collapse" href="#collapse-new" role="button">
+        拠点情報追加
+      </a>
+    </div>
+  </div>
+  <div class="collapse" id="collapse-new">
+    <div class="collapse-body">
+      <%= render 'form' %>
+    </div>
+  </div>
 </div>
