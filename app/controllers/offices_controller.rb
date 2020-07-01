@@ -19,6 +19,15 @@ class OfficesController < ApplicationController
     end
   end
   
+  def update
+    if @office.update_attributes(office_params)
+      flash[:success] = "#{@office.office_name}の情報を更新しました。"
+      redirect_to offices_url
+    else
+      flash[:danger] = "#{@office.office_name}の更新に失敗しました。"
+    end
+  end  
+  
   private
   
     def office_params
