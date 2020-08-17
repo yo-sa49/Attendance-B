@@ -28,13 +28,19 @@
   </table>
 </div>
 
-<h4 class: "btn btn-muted">
-<% if current_user.admin? %>
-  <p><%= link_to "【所属長承認申請のお知らせ】", "#" %></p>
-  <p><%= link_to "【勤怠変更申請のお知らせ】", "#" %></p>
-  <p><%= link_to "【残業申請のお知らせ】", "#" %></p>
+<% if current_user.superior? && current_user?(@user) %>
+  <div class="news">
+    <p>
+     【所属長承認申請のお知らせ】
+     <% unless has_month_apply.count == 0 %>
+       <%= link_to "通知が#{has_month_apply.count}件あります。",
+                   attendances_one_month_apply_user_path(@user), remote: true, class: "notice-superior" %>
+     <% end %>
+    </p>
+    <p><%= link_to "【勤怠変更申請のお知らせ】", "#" %></p>
+    <p><%= link_to "【残業申請のお知らせ】", "#" %></p>
+  </div>
 <% end %>
-</h4>
 
 <div class = "btn-user-table">
   <% if current_user?(@user) %>
@@ -134,8 +140,15 @@
         <td colspan="3"></td>
         <td><%= "" %></td>
         <td></td>
-        <td></td>
+        <td>
+          <div class="application-form">
+            <%= render 'month_apply_form' %> <!-- 1ヶ月勤怠申請ボタンフォーム -->
+          </div>
+        </td>
       </tr>
     </tfoot>
   </table>
 </div>
+
+<!-- モーダルウィンドウ -->
+<div id="one_month_apply" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
