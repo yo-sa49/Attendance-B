@@ -1,0 +1,42 @@
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-body">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="row">
+        <div class="col-md-12">
+          <%= form_with(model: @user, url: attendances_confirmation_one_month_apply_user_path(@user), local: true, method: :patch) do |f| %>
+            <% @users.each do |user| %>
+              <% attendances Attendance.where(user_id: user.id).where(status: "申請中") %>
+              <% attendances.each do |attendance| %>
+                <% if attendance.month_apply.present? && attendance.superior_id == current_user.id && attendance.month_approval == 2 %>
+                <h3 class="center">【<%= user.name %>からの１か月分の勤怠申請】</h3>
+              　<table class="table table-condensed table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th class="center">月</th>
+                      <th class="center">指示者確認<%= "\u329e" %></th>
+                      <th class="center">変更</th>
+                      <th class="center">勤怠を確認する</th>
+                    </tr>
+              　   </thead>
+            <% break %>
+            <% end %>
+          <% end %>
+          
+          
+          </table>
+
+            <div class="center">
+              <%= f.submit yield(:button_text), class: "btn btn-primary btn-#{yield(:class_text)}" %>
+              <button type="button" class="btn btn-default btn-<%= yield(:class_text) %>" data-dismiss="modal">
+                キャンセル
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
